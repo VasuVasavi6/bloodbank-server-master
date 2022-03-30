@@ -26,8 +26,14 @@ const bodyParser = require("body-parser");
 app.use(bodyParser.urlencoded({ extended: true }));
 
 const authRouter = require("./auth/auth.js");
+const userRouterProfile = require("./userroutes/userroutesprofile.js");
+const userRouterEvent = require("./userroutes/userroutesevent.js");
+const userRouterBloodBank =  require("./userroutes/userroutesbloodbank.js")
 
 app.use("/api/auth", authRouter);
+app.use("/api/userroutesprofile", userRouterProfile);
+app.use("/api/userroutesevent", userRouterEvent);
+app.use("/api/userroutesbloodbank", userRouterBloodBank);
 
 app.listen(port, () => {
   console.log(`Server is running on port: ${port}`);
