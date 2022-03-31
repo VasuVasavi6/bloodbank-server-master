@@ -28,8 +28,11 @@ app.use(bodyParser.urlencoded({ extended: true }));
 const authRouter = require("./auth/auth.js");
 const userRouterProfile = require("./userroutes/userroutesprofile.js");
 const userRouterEvent = require("./userroutes/userroutesevent.js");
-const userRouterBloodBank =  require("./userroutes/userroutesbloodbank.js")
+const userRouterBloodBank = require("./userroutes/userroutesbloodbank.js");
 
+app.get("/", (req, res) => {
+  res.send("Welcome to the application");
+});
 app.use("/api/auth", authRouter);
 app.use("/api/userroutesprofile", userRouterProfile);
 app.use("/api/userroutesevent", userRouterEvent);
