@@ -43,16 +43,17 @@ router.post("/updateinterested", async (req, res) => {
   try {
     const id = req.body.eventid;
     const interested = req.body.interested;
+    const usersinterested = req.body.usersinterested;
 
     if (interested) {
       const eventData = await Event.updateOne(
         { _id: id },
-        { $inc: { interested: 1 } }
+        { $inc: { interested: 1 }, usersinterested: usersinterested }
       );
     } else {
       const eventData = await Event.updateOne(
         { _id: id },
-        { $inc: { interested: -1 } }
+        { $inc: { interested: -1 }, usersinterested: usersinterested }
       );
     }
     res

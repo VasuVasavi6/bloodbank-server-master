@@ -7,6 +7,7 @@ const Event = new mongoose.Schema(
     eventdescription: { type: String, required: true },
     eventdate: { type: String, required: true },
     interested: { type: Number, required: true, default: 0 },
+    usersinterested: { type: Array },
   },
   { timestamps: true }
 );
