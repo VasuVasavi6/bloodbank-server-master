@@ -15,12 +15,14 @@ router.post("/addprofile", async (req, res) => {
       state: req.body.state,
       district: req.body.district,
       city: req.body.city,
+      lat: req.body.lat,
+      long: req.body.long,
     });
 
     await profileData.save();
-    res.status(200).json({ staus: "ok", message: "saved successfully" });
+    res.status(200).json({ status: "ok", message: "saved successfully" });
   } catch (err) {
-    res.status(500).json({ staus: "not ok", message: "Server error" });
+    res.status(500).json({ status: "not ok", message: "Server error" });
   }
 });
 
@@ -28,24 +30,24 @@ router.get("/getprofiles", async (req, res) => {
   try {
     const profileData = await Profile.find();
     console.log(profileData);
-    res.status(200).json({ staus: "ok", result: profileData });
+    res.status(200).json({ status: "ok", result: profileData });
   } catch (err) {
-    res.status(500).json({ staus: "not ok", message: "Server error" });
+    res.status(500).json({ status: "not ok", message: "Server error" });
   }
 });
 
 router.post("/findprofile", async (req, res) => {
   try {
     const profileData = await Profile.find({ userid: req.body.id });
-    res.status(200).json({ staus: "ok", result: profileData });
+    res.status(200).json({ status: "ok", result: profileData });
   } catch (err) {
-    res.status(500).json({ staus: "not ok", message: "Server error" });
+    res.status(500).json({ status: "not ok", message: "Server error" });
   }
 });
 
 router.post("/updateprofile", async (req, res) => {
   try {
-    const id = req.body.id;
+    const id = req.body.userid;
 
     const obj = {
       bio: req.body.bio,
@@ -57,6 +59,8 @@ router.post("/updateprofile", async (req, res) => {
       state: req.body.state,
       district: req.body.district,
       city: req.body.city,
+      lat: req.body.lat,
+      long: req.body.long,
     };
     let doc = await Profile.findOneAndUpdate({ userid: id }, obj, {
       upsert: true,
@@ -64,7 +68,7 @@ router.post("/updateprofile", async (req, res) => {
 
     res.status(200).json({ status: "ok", message: "Updated successfully" });
   } catch (err) {
-    res.status(500).json({ staus: "not ok", message: "Server error" });
+    res.status(500).json({ status: "not ok", message: "Server error" });
   }
 });
 
@@ -75,7 +79,7 @@ router.post("/deleteprofile", async (req, res) => {
     const profileData = await Profile.deleteOne({ userid: id });
     res.status(200).json({ status: "ok", message: "Deleted successfully" });
   } catch (err) {
-    res.status(500).json({ staus: "not ok", message: "Server error" });
+    res.status(500).json({ status: "not ok", message: "Server error" });
   }
 });
 module.exports = router;

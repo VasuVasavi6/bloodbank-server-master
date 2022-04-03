@@ -24,25 +24,25 @@ router.post("/add", async (req, res) => {
 
     res.status(200).json({ status: "ok", message: "saved successfully" });
   } catch (err) {
-    res.status(500).json({ staus: "not ok", message: "Server error" });
+    res.status(500).json({ status: "not ok", message: "Server error" });
   }
 });
 router.get("/get", async (req, res) => {
   try {
     const plasmaBankData = await PlasmaBank.find();
-    res.status(200).json({ staus: "ok", result: plasmaBankData });
+    res.status(200).json({ status: "ok", result: plasmaBankData });
   } catch (err) {
-    res.status(500).json({ staus: "not ok", message: "Server error" });
+    res.status(500).json({ status: "not ok", message: "Server error" });
   }
 });
 router.post("/delete", async (req, res) => {
   try {
-    const id = req.body.userid;
+    const id = req.body.id;
 
-    const plasmaBankData = await PlasmaBank.deleteOne({ userid: id });
+    const plasmaBankData = await PlasmaBank.deleteOne({ _id: id });
     res.status(200).json({ status: "ok", message: "Deleted successfully" });
   } catch (err) {
-    res.status(500).json({ staus: "not ok", message: "Server error" });
+    res.status(500).json({ status: "not ok", message: "Server error" });
   }
 });
 

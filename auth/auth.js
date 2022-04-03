@@ -5,13 +5,18 @@ var jwt = require("jsonwebtoken");
 
 const verifyToken = require("./verifyToken");
 
+const ADMIN_CREDENTIAL = {
+  email: "lifesaver0606@gmail.com",
+  password: "MilkyBar#1",
+};
+
 router.post("/login", async (req, res) => {
   try {
     //Checking if the email exists
     const user = await User.findOne({ email: req.body.email });
     if (!user)
       return res.json({
-        staus: "not ok",
+        status: "not ok",
         auth: false,
         message: "No email found",
       });
@@ -21,25 +26,32 @@ router.post("/login", async (req, res) => {
     const validPass = await bcrypt.compare(req.body.password, user.password);
     if (!validPass) {
       return res.json({
-        staus: "not ok",
+        status: "not ok",
         auth: false,
         message: "Password is wrong",
       });
     }
+
     //Create and assign a token
     const id = user._id,
       email = user.email;
     const token = jwt.sign({ id, email }, process.env.TOKEN_SECRET);
     const result = user;
+    let adminCheck = false;
+    if (user.email === ADMIN_CREDENTIAL.email) {
+      adminCheck = true;
+    }
+    console.log(user.email, user.password, "admincheck");
     res.json({
-      staus: "ok",
+      status: "ok",
       auth: true,
       token: token,
       result: result,
+      adminCheck: adminCheck,
       message: "Logged In successfully",
     });
   } catch (err) {
-    res.status(500).json({ staus: "not ok", message: "Server error" });
+    res.status(500).json({ status: "not ok", message: "Server error" });
   }
 });
 router.post("/register", async (req, res) => {
@@ -67,9 +79,9 @@ router.post("/register", async (req, res) => {
     });
     console.log(userData);
     await userData.save();
-    res.status(200).json({ staus: "ok", message: "register successfully" });
+    res.status(200).json({ status: "ok", message: "register successfully" });
   } catch (err) {
-    res.status(500).json({ staus: "not ok", message: "Server error" });
+    res.status(500).json({ status: "not ok", message: "Server error" });
   }
 });
 
@@ -90,7 +102,25 @@ router.get("/login", verifyToken, async (req, res) => {
       });
     }
   } catch (err) {
-    res.status(500).json({ staus: "not ok", message: "Server error" });
+    res.status(500).json({ status: "not ok", message: "Server error" });
+  }
+});
+
+router.get("/getusers", async (req, res) => {
+  try {
+    const userData = await User.find({}, { password: 0 });
+    res.status(200).json({ status: "ok", result: userData });
+  } catch (err) {
+    res.status(500).json({ status: "not ok", message: "Server error" });
+  }
+});
+router.post("/deleteuser", async (req, res) => {
+  try {
+    const id = req.body.id;
+    const profileData = await User.deleteOne({ _id: id });
+    res.status(200).json({ status: "ok", message: "Deleted successfully" });
+  } catch (err) {
+    res.status(500).json({ status: "not ok", message: "Server error" });
   }
 });
 module.exports = router;

@@ -14,9 +14,9 @@ router.post("/add", async (req, res) => {
     });
 
     await eventData.save();
-    res.status(200).json({ staus: "ok", message: "saved successfully" });
+    res.status(200).json({ status: "ok", message: "saved successfully" });
   } catch (err) {
-    res.status(500).json({ staus: "not ok", message: "Server error" });
+    res.status(500).json({ status: "not ok", message: "Server error" });
   }
 });
 
@@ -24,19 +24,19 @@ router.get("/get", async (req, res) => {
   try {
     const eventData = await Event.find();
     console.log(eventData);
-    res.status(200).json({ staus: "ok", result: eventData });
+    res.status(200).json({ status: "ok", result: eventData });
   } catch (err) {
-    res.status(500).json({ staus: "not ok", message: "Server error" });
+    res.status(500).json({ status: "not ok", message: "Server error" });
   }
 });
 router.post("/delete", async (req, res) => {
   try {
-    const id = req.body.userid;
+    const id = req.body.id;
 
-    const eventData = await Event.deleteOne({ userid: id });
+    const eventData = await Event.deleteOne({ _id: id });
     res.status(200).json({ status: "ok", message: "Deleted successfully" });
   } catch (err) {
-    res.status(500).json({ staus: "not ok", message: "Server error" });
+    res.status(500).json({ status: "not ok", message: "Server error" });
   }
 });
 router.post("/updateinterested", async (req, res) => {
@@ -60,7 +60,7 @@ router.post("/updateinterested", async (req, res) => {
       .status(200)
       .json({ status: "ok", message: "Updated interested successfully" });
   } catch (err) {
-    res.status(500).json({ staus: "not ok", message: "Server error" });
+    res.status(500).json({ status: "not ok", message: "Server error" });
   }
 });
 

@@ -11,7 +11,9 @@ const Profile = new mongoose.Schema(
     availability: { type: String, required: true },
     state: { type: String, required: true },
     district: { type: String, required: true },
+    lat: { type: String, required: true },
     city: { type: String, required: true },
+    long: { type: String, required: true },
   },
   { timestamps: true }
 );
