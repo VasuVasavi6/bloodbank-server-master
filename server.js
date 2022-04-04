@@ -30,6 +30,7 @@ const userRouterProfile = require("./userroutes/userroutesprofile.js");
 const userRouterEvent = require("./userroutes/userroutesevent.js");
 const userRouterBloodBank = require("./userroutes/userroutesbloodbank.js");
 const userRouterPlasmaBank = require("./userroutes/userroutesplasmabank.js");
+const userRouterVideo = require("./userroutes/userroutesvideo.js");
 
 app.get("/", (req, res) => {
   res.send("Welcome to the application");
@@ -39,6 +40,7 @@ app.use("/api/userroutesprofile", userRouterProfile);
 app.use("/api/userroutesevent", userRouterEvent);
 app.use("/api/userroutesbloodbank", userRouterBloodBank);
 app.use("/api/userroutesplasmabank", userRouterPlasmaBank);
+app.use("/api/userroutesvideo", userRouterVideo);
 
 app.listen(port, () => {
   console.log(`Server is running on port: ${port}`);
