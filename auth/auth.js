@@ -114,6 +114,14 @@ router.get("/getusers", async (req, res) => {
     res.status(500).json({ status: "not ok", message: "Server error" });
   }
 });
+router.post("/getuserdob", async (req, res) => {
+  try {
+    const userData = await User.find({ _id: req.body.userid }, { password: 0 });
+    res.status(200).json({ status: "ok", result: userData[0].dob });
+  } catch (err) {
+    res.status(500).json({ status: "not ok", message: "Server error" });
+  }
+});
 router.post("/deleteuser", async (req, res) => {
   try {
     const id = req.body.id;
