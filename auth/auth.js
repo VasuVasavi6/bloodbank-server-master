@@ -131,4 +131,31 @@ router.post("/deleteuser", async (req, res) => {
     res.status(500).json({ status: "not ok", message: "Server error" });
   }
 });
+
+router.post("/changepassword", async (req, res) => {
+  try {
+    const { userid, oldPassword, newPassword } = req.body;
+
+    const userData = await User.findOne({ _id: userid });
+
+    const validPass = await bcrypt.compare(oldPassword, userData.password);
+    if (validPass) {
+      const salt = bcrypt.genSaltSync(10);
+      const hashedPassword = bcrypt.hashSync(newPassword, salt);
+      const updated = await User.findOneAndUpdate(
+        { _id: userid },
+        { password: hashedPassword }
+      );
+      console.log(updated);
+      res
+        .status(200)
+        .json({ status: "ok", message: "changed Password successfully" });
+    }
+    res
+      .status(201)
+      .json({ status: "not ok", message: "Old Password did't match" });
+  } catch (e) {
+    res.status(500).json({ status: "not ok", message: "Server error" });
+  }
+});
 module.exports = router;
